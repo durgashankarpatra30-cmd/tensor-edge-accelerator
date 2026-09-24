@@ -1,0 +1,7 @@
+# Simulation waveforms and compiled binaries (re-generated locally)
+sim/*.vcd
+sim/*.vvp
+sim/*.exe
+sim/*.out
+*.o
+__pycache__/
