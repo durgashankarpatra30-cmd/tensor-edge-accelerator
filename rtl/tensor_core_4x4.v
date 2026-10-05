@@ -176,19 +176,24 @@ module tensor_core_4x4 #(
     assign sa_valid_in = {val_r3_d3, val_r2_d2, val_r1_d1, start};
     assign clr_acc     = 1'b0;
 
+    reg computing;
+
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             valid_out <= 1'b0;
             done      <= 1'b0;
+            computing <= 1'b0;
             busy      <= 1'b0;
         end else begin
             valid_out <= sa_valid_out[3];
             done      <= sa_valid_out[3];
 
-            if (start || (|load_weight))
-                busy <= 1'b1;
+            if (start)
+                computing <= 1'b1;
             else if (sa_valid_out[3])
-                busy <= 1'b0;
+                computing <= 1'b0;
+
+            busy <= (start || computing);
         end
     end
 
